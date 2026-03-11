@@ -1,6 +1,6 @@
 use color_eyre::Result;
 mod app;
-
+mod verify;
 use app::App;
 
 #[tokio::main]
@@ -10,9 +10,9 @@ async fn main() -> Result<()> {
 
     let mut app = App::new();
 
-    let result = app.run(terminal).await;
+    let exit_code = app.run(terminal).await;
 
     ratatui::restore();
 
-    result
+    std::process::exit(exit_code?);
 }

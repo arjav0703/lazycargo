@@ -2,25 +2,36 @@ use color_eyre::Result;
 use crossterm::event;
 use ratatui::DefaultTerminal;
 
+use crate::verify::verfiy_rust_project;
+
 pub struct App {
-    exit: bool,
+    exit: Option<Exit>,
+}
+
+struct Exit {
+    code: i32,
 }
 
 impl App {
-    pub async fn run(mut self, mut terminal: DefaultTerminal) -> Result<()> {
-        while !self.exit {
+    pub async fn run(mut self, mut terminal: DefaultTerminal) -> Result<i32> {
+        if verfiy_rust_project().is_err() {
+            self.quit(1);
+        }
+
+        while self.exit.is_none() {
             terminal.draw(|frame| self.render(frame))?;
             self.handle_crossterm_events().await?;
         }
-        Ok(())
+
+        Ok(self.exit.unwrap().code)
     }
 
-    fn quit(&mut self) {
-        self.exit = true;
+    fn quit(&mut self, error_code: i32) {
+        self.exit = Some(Exit { code: error_code });
     }
 
     pub fn new() -> Self {
-        Self { exit: false }
+        Self { exit: None }
     }
 }
 
@@ -39,7 +50,7 @@ impl App {
 
         match event {
             Event::Key(k) => match k.code {
-                KeyCode::Char('q') => self.quit(),
+                KeyCode::Char('q') => self.quit(0),
                 _ => {}
             },
             _ => {}
