@@ -1,9 +1,9 @@
 use color_eyre::Result;
 mod app;
-mod dependencies;
+mod domain;
 mod verify;
 use app::App;
-use dependencies::DependencyExtractor;
+use domain::*;
 
 #[tokio::main]
 async fn main() -> Result<()> {

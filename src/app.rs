@@ -39,8 +39,9 @@ impl App {
     pub fn render(&self, frame: &mut ratatui::Frame) {
         let size = frame.area();
         let block = ratatui::widgets::Block::default()
-            .title("Hello, Ratatui!")
-            .borders(ratatui::widgets::Borders::ALL);
+            .title("lazycargo")
+            .borders(ratatui::widgets::Borders::ALL)
+            .title_alignment(ratatui::layout::Alignment::Center);
         frame.render_widget(block, size);
     }
 
