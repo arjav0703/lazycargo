@@ -1,4 +1,5 @@
 use super::*;
+use cargo_manifest::Manifest;
 
 pub trait DependencyExtractor {
     fn get_dependencies(&self) -> Vec<Dependency>;

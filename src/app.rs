@@ -2,9 +2,10 @@ use color_eyre::Result;
 use crossterm::event;
 use ratatui::DefaultTerminal;
 
-use crate::verify::verfiy_rust_project;
+use crate::{domain::get_manifest, verify::verfiy_rust_project};
 
 pub struct App {
+    pub manifest: cargo_manifest::Manifest,
     exit: Option<Exit>,
 }
 
@@ -31,7 +32,10 @@ impl App {
     }
 
     pub fn new() -> Self {
-        Self { exit: None }
+        Self {
+            exit: None,
+            manifest: get_manifest(),
+        }
     }
 }
 

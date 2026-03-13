@@ -12,11 +12,12 @@ async fn main() -> Result<()> {
 
     let mut app = App::new();
 
+    let dependencies = app.manifest.clone().get_dependencies();
+
     let exit_code = app.run(terminal).await;
 
     ratatui::restore();
 
-    let dependencies = dependencies::get_manifest().get_dependencies();
     dbg!("Dependencies: {:#?}", dependencies);
 
     std::process::exit(exit_code?);

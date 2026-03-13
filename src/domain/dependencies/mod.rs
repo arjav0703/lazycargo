@@ -36,9 +36,3 @@ pub enum DependencyType {
     Regular,
     Dev,
 }
-
-use cargo_manifest::Manifest;
-
-pub fn get_manifest() -> Manifest {
-    Manifest::from_path("Cargo.toml").expect("Failed to read Cargo.toml")
-}
