@@ -1,7 +1,9 @@
 use color_eyre::Result;
 mod app;
+mod dependencies;
 mod verify;
 use app::App;
+use dependencies::DependencyExtractor;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -14,5 +16,9 @@ async fn main() -> Result<()> {
 
     ratatui::restore();
 
+    let dependencies = dependencies::get_manifest().get_dependencies();
+    dbg!("Dependencies: {:#?}", dependencies);
+
     std::process::exit(exit_code?);
+    // Ok(())
 }
