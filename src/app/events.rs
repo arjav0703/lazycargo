@@ -81,9 +81,55 @@ impl App {
                 self.sidebar_index = 2;
             }
             KeyCode::Enter => {
-                self.active_panel = Panel::Main;
+                todo!()
+            }
+
+            KeyCode::Char('j') => {
+                self.sidebar_section_down().await;
+            }
+
+            KeyCode::Char('k') => {
+                self.sidebar_section_up().await;
             }
             _ => {}
+        }
+    }
+
+    async fn sidebar_section_down(&mut self) {
+        let section = self.current_section();
+        match section {
+            SidebarSection::Info => {}
+            SidebarSection::Dependencies => {
+                if !self.dependencies.is_empty() {
+                    let i = self.dep_list_state.selected().unwrap_or(0);
+                    let next_i = (i + 1).min(self.dependencies.len() - 1);
+                    self.dep_list_state.select(Some(next_i));
+                }
+            }
+            SidebarSection::Commands => {
+                let i = self.cmd_list_state.selected().unwrap_or(0);
+                let next_i = (i + 1).min(CargoCommand::all().len() - 1);
+                self.cmd_list_state.select(Some(next_i));
+            }
+        }
+    }
+
+    async fn sidebar_section_up(&mut self) {
+        let section = self.current_section();
+        match section {
+            SidebarSection::Info => {}
+            SidebarSection::Dependencies => {
+                if !self.dependencies.is_empty() {
+                    let i = self.dep_list_state.selected().unwrap_or(0);
+                    let next_i = i.saturating_sub(1);
+                    self.dep_list_state.select(Some(next_i));
+                }
+            }
+            SidebarSection::Commands => {
+                let i = self.cmd_list_state.selected().unwrap_or(0);
+                let next_i = i.saturating_sub(1);
+                self.cmd_list_state.select(Some(next_i));
+            }
         }
     }
 }
