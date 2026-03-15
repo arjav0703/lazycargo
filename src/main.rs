@@ -9,7 +9,7 @@ async fn main() -> Result<()> {
     color_eyre::install()?;
     let terminal = ratatui::init();
 
-    let app = App::new();
+    let app = App::default();
 
     let exit_code = app.run(terminal).await;
 
