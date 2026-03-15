@@ -54,7 +54,37 @@ impl App {
     }
 
     async fn handle_key(&mut self, key: KeyEvent) {
-        todo!()
+        if key == KeyEvent::new(KeyCode::Char('q'), KeyModifiers::NONE) {
+            self.quit(0);
+            return;
+        }
+        match self.active_panel {
+            Panel::Sidebar => {
+                self.handle_sidebar_key(key).await;
+            }
+            Panel::Main => {
+                todo!();
+                // self.handle_main_key(key).await;
+            }
+        }
+    }
+
+    async fn handle_sidebar_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Char('1') => {
+                self.sidebar_index = 0;
+            }
+            KeyCode::Char('2') => {
+                self.sidebar_index = 1;
+            }
+            KeyCode::Char('3') => {
+                self.sidebar_index = 2;
+            }
+            KeyCode::Enter => {
+                self.active_panel = Panel::Main;
+            }
+            _ => {}
+        }
     }
 }
 

@@ -2,7 +2,6 @@
 pub enum Panel {
     Sidebar,
     Main,
-    Output,
 }
 
 #[derive(Debug, Clone, PartialEq)]
