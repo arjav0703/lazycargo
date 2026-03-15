@@ -23,9 +23,9 @@ impl SidebarSection {
 
     pub fn label(&self) -> &str {
         match self {
-            SidebarSection::Info => "Package Info",
-            SidebarSection::Dependencies => "Dependencies",
-            SidebarSection::Commands => "Commands",
+            SidebarSection::Info => "[1] Package Info",
+            SidebarSection::Dependencies => "[2] Dependencies",
+            SidebarSection::Commands => "[3] Execute Commands",
         }
     }
 }
