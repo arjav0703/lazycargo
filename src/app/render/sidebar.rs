@@ -30,7 +30,8 @@ impl App {
                 Style::default().fg(Color::Yellow)
             } else {
                 Style::default().fg(Color::DarkGray)
-            });
+            })
+            .border_type(BorderType::Rounded);
 
         let package = self.manifest.package.as_ref();
 
@@ -81,7 +82,8 @@ impl App {
                 Style::default().fg(Color::Yellow)
             } else {
                 Style::default().fg(Color::DarkGray)
-            });
+            })
+            .border_type(BorderType::Rounded);
 
         let items: Vec<ListItem> = self
             .dependencies
@@ -121,7 +123,8 @@ impl App {
                 Style::default().fg(Color::Yellow)
             } else {
                 Style::default().fg(Color::DarkGray)
-            });
+            })
+            .border_type(BorderType::Rounded);
 
         let items: Vec<ListItem> = CargoCommand::all()
             .into_iter()

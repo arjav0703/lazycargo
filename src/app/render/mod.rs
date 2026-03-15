@@ -4,6 +4,7 @@ use ratatui::{
     text::{Line, Span},
     widgets::{Block, Borders, List, ListDirection, ListItem, Paragraph},
 };
+mod main_panel;
 mod sidebar;
 
 use super::*;
@@ -17,6 +18,7 @@ impl App {
             .split(size);
 
         self.render_sidebar(frame, chunks[0]);
+        self.render_main_panel(frame, chunks[1]);
         // if self.popup != PopupMode::None {
         //     self.render_popup(frame);
         // }

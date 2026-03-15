@@ -83,7 +83,9 @@ impl App {
             KeyCode::Enter => {
                 todo!()
             }
-
+            KeyCode::Tab => {
+                self.active_panel = Panel::Main;
+            }
             KeyCode::Char('j') => {
                 self.sidebar_section_down().await;
             }

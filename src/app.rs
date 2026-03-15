@@ -28,7 +28,7 @@ pub struct App {
     pub dep_list_state: ListState,
     pub cmd_list_state: ListState,
 
-    pub output_lines: Arc<Mutex<Vec<String>>>,
+    pub main_output_lines: Arc<Mutex<Vec<String>>>,
     pub output_scroll: u16,
     pub command_status: CommandStatus,
     pub last_command: Option<String>,
@@ -59,7 +59,7 @@ impl Default for App {
             sidebar_index: 0,
             dep_list_state,
             cmd_list_state,
-            output_lines: Arc::new(Mutex::new(Vec::new())),
+            main_output_lines: Arc::new(Mutex::new(Vec::new())),
             output_scroll: 0,
             command_status: CommandStatus::Idle,
             last_command: None,
