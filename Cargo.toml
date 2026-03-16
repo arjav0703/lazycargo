@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 ansi-to-tui = "8.0.1"
 cargo-manifest = "0.20.0"
+cargofetch = "1.4.0"
 color-eyre = "0.6.5"
 crossterm = "0.29.0"
 ratatui = "0.30.0"

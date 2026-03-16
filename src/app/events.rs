@@ -1,3 +1,5 @@
+use cargofetch::fetch;
+
 use super::*;
 
 impl App {
@@ -81,7 +83,10 @@ impl App {
             }
             KeyCode::Enter => match self.current_section() {
                 SidebarSection::Info => {
-                    todo!()
+                    let lines = fetch().unwrap_or_else(|e| vec![format!("error: {}", e)]);
+                    *self.main_output_lines.lock().unwrap() = lines;
+                    self.output_scroll = 0;
+                    self.active_panel = Panel::Main;
                 }
                 SidebarSection::Commands => {
                     if let Some(i) = self.cmd_list_state.selected() {
