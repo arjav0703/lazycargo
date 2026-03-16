@@ -63,8 +63,7 @@ impl App {
                 self.handle_sidebar_key(key).await;
             }
             Panel::Main => {
-                todo!();
-                // self.handle_main_key(key).await;
+                self.handle_main_key(key).await;
             }
         }
     }
@@ -80,18 +79,24 @@ impl App {
             KeyCode::Char('3') => {
                 self.sidebar_index = 2;
             }
-            KeyCode::Enter => {
-                if SidebarSection::Info == self.current_section() {
+            KeyCode::Enter => match self.current_section() {
+                SidebarSection::Info => {
                     todo!()
                 }
-            }
+                SidebarSection::Commands => {
+                    if let Some(i) = self.cmd_list_state.selected() {
+                        let cmd = CargoCommand::all()[i].clone();
+                        self.run_cargo_command(cmd).await;
+                    }
+                }
+                _ => {}
+            },
             KeyCode::Tab => {
                 self.active_panel = Panel::Main;
             }
             KeyCode::Char('j') | KeyCode::Down => {
                 self.sidebar_section_down().await;
             }
-
             KeyCode::Char('k') | KeyCode::Up => {
                 self.sidebar_section_up().await;
             }
@@ -112,6 +117,33 @@ impl App {
                 }
                 _ => {}
             }
+        }
+    }
+
+    async fn handle_main_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Tab | KeyCode::Esc => {
+                self.active_panel = Panel::Sidebar;
+            }
+            KeyCode::Char('j') | KeyCode::Down => {
+                self.output_scroll = self.output_scroll.saturating_add(1);
+            }
+            KeyCode::Char('k') | KeyCode::Up => {
+                self.output_scroll = self.output_scroll.saturating_sub(1);
+            }
+            KeyCode::Char('d') | KeyCode::PageDown => {
+                self.output_scroll = self.output_scroll.saturating_add(10);
+            }
+            KeyCode::Char('u') | KeyCode::PageUp => {
+                self.output_scroll = self.output_scroll.saturating_sub(10);
+            }
+            KeyCode::Char('g') | KeyCode::Home => {
+                self.output_scroll = 0;
+            }
+            KeyCode::Char('G') | KeyCode::End => {
+                self.output_scroll = u16::MAX;
+            }
+            _ => {}
         }
     }
 

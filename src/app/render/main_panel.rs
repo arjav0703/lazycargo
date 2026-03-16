@@ -1,3 +1,5 @@
+use ansi_to_tui::IntoText as _;
+
 use super::*;
 
 impl App {
@@ -14,10 +16,22 @@ impl App {
             }))
             .border_type(BorderType::Rounded);
 
-        let para = self.main_output_lines.lock().unwrap().join("\n");
+        let raw = self.main_output_lines.lock().unwrap().join("\n");
+
+        let text = raw.into_text().unwrap_or_else(|_| raw.as_str().into());
+
+        let inner_height = area.height.saturating_sub(2) as usize; // subtract top+bottom borders
+        let total_lines = text.lines.len();
+        let max_scroll = total_lines.saturating_sub(inner_height) as u16;
+        if self.output_scroll > max_scroll {
+            self.output_scroll = max_scroll;
+        }
 
         frame.render_widget(
-            Paragraph::new(para).block(block).wrap(Wrap { trim: false }),
+            Paragraph::new(text)
+                .block(block)
+                .wrap(Wrap { trim: false })
+                .scroll((self.output_scroll, 0)),
             area,
         );
     }
