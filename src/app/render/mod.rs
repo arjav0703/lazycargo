@@ -5,6 +5,7 @@ use ratatui::{
     widgets::{Block, Borders, List, ListDirection, ListItem, Paragraph},
 };
 mod main_panel;
+mod popup;
 mod sidebar;
 
 use super::*;
@@ -19,8 +20,8 @@ impl App {
 
         self.render_sidebar(frame, chunks[0]);
         self.render_main_panel(frame, chunks[1]);
-        // if self.popup != PopupMode::None {
-        //     self.render_popup(frame);
-        // }
+        if self.popup != PopupMode::None {
+            self.render_popup(frame);
+        }
     }
 }
