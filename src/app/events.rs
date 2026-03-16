@@ -81,19 +81,37 @@ impl App {
                 self.sidebar_index = 2;
             }
             KeyCode::Enter => {
-                todo!()
+                if SidebarSection::Info == self.current_section() {
+                    todo!()
+                }
             }
             KeyCode::Tab => {
                 self.active_panel = Panel::Main;
             }
-            KeyCode::Char('j') => {
+            KeyCode::Char('j') | KeyCode::Down => {
                 self.sidebar_section_down().await;
             }
 
-            KeyCode::Char('k') => {
+            KeyCode::Char('k') | KeyCode::Up => {
                 self.sidebar_section_up().await;
             }
             _ => {}
+        }
+
+        if self.current_section() == SidebarSection::Dependencies {
+            match key.code {
+                KeyCode::Char('a') => {
+                    self.popup = PopupMode::AddDependency;
+                }
+                KeyCode::Backspace | KeyCode::Delete | KeyCode::Char('d') => {
+                    if let Some(i) = self.dep_list_state.selected()
+                        && let Some(dep) = self.dependencies.get(i)
+                    {
+                        self.popup = PopupMode::RemoveConfirm(dep.name.clone());
+                    }
+                }
+                _ => {}
+            }
         }
     }
 
@@ -137,5 +155,19 @@ impl App {
 }
 
 fn handle_input_key(i: &mut Input, key: KeyEvent) {
-    todo!()
+    use tui_input::InputRequest;
+    let req = match (key.code, key.modifiers) {
+        (KeyCode::Backspace, KeyModifiers::NONE) => Some(InputRequest::DeletePrevChar),
+        (KeyCode::Delete, KeyModifiers::NONE) => Some(InputRequest::DeleteNextChar),
+        (KeyCode::Left, KeyModifiers::NONE) => Some(InputRequest::GoToPrevChar),
+        (KeyCode::Right, KeyModifiers::NONE) => Some(InputRequest::GoToNextChar),
+        (KeyCode::Home, KeyModifiers::NONE) => Some(InputRequest::GoToStart),
+        (KeyCode::End, KeyModifiers::NONE) => Some(InputRequest::GoToEnd),
+        (KeyCode::Char(c), KeyModifiers::NONE) => Some(InputRequest::InsertChar(c)),
+        (KeyCode::Char(c), KeyModifiers::SHIFT) => Some(InputRequest::InsertChar(c)),
+        _ => None,
+    };
+    if let Some(req) = req {
+        i.handle(req);
+    }
 }
