@@ -2,15 +2,12 @@ use super::*;
 
 impl App {
     pub fn render_sidebar(&mut self, frame: &mut Frame<'_>, area: Rect) {
-        let num_commands = CargoCommand::all().len() as u16;
-        let num_deps = self.dependencies.len() as u16;
-
         let sidebar_chunks = Layout::default()
             .direction(Direction::Vertical)
             .constraints([
                 Constraint::Length(4 + 2),
-                Constraint::Length(num_deps.max(1) + 2),
-                Constraint::Length(num_commands + 2),
+                Constraint::Percentage(50),
+                Constraint::Percentage(50),
             ])
             .split(area);
 
@@ -116,10 +113,11 @@ impl App {
         let is_active = self.active_panel == Panel::Sidebar
             && self.current_section() == SidebarSection::Commands;
 
-        let desc_line: Vec<String> = vec![CargoCommand::all()
-            [self.cmd_list_state.selected().unwrap()]
-        .description()
-        .to_string()];
+        let desc_line: Vec<String> = vec![
+            CargoCommand::all()[self.cmd_list_state.selected().unwrap()]
+                .description()
+                .to_string(),
+        ];
 
         if is_active && self.command_status == CommandStatus::Idle {
             *self.main_output_lines.lock().unwrap() = desc_line;
