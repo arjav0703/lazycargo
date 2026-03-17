@@ -5,6 +5,10 @@
 A TUI interface for cargo, the Rust package manager.
 
 
+https://github.com/user-attachments/assets/8d424202-6597-424b-8f43-9d4d00abc06c
+
+
+
 ## Installation
 [![Crates.io](https://img.shields.io/crates/v/lazycargo.svg)](https://crates.io/crates/lazycargo)
 
