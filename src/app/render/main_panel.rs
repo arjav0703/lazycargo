@@ -1,4 +1,6 @@
 use ansi_to_tui::IntoText as _;
+use ratatui::prelude::{Frame, Style, Stylize};
+use tui_big_text::{BigText, PixelSize};
 
 use super::*;
 
@@ -15,6 +17,18 @@ impl App {
                 Color::DarkGray
             }))
             .border_type(BorderType::Rounded);
+
+        if self.main_output_lines.lock().unwrap().is_empty() {
+            let big_text = BigText::builder()
+                .pixel_size(PixelSize::Full)
+                .style(Style::new().blue())
+                .lines(vec![
+                    "LazyCargo".light_red().into(),
+                    "~~~~~~~~~".light_blue().into(),
+                ])
+                .build();
+            frame.render_widget(big_text, area);
+        }
 
         let raw = self.main_output_lines.lock().unwrap().join("\n");
 
