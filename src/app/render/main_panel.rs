@@ -22,10 +22,7 @@ impl App {
             let big_text = BigText::builder()
                 .pixel_size(PixelSize::Full)
                 .style(Style::new().blue())
-                .lines(vec![
-                    "LazyCargo".light_red().into(),
-                    "~~~~~~~~~".light_blue().into(),
-                ])
+                .lines(vec!["LazyCargo".light_red().into(), "~~~~~~~~~".into()])
                 .build();
             frame.render_widget(big_text, area);
         }
