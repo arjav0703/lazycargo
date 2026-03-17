@@ -24,8 +24,8 @@ You can download the pre-built binary for your platform from the [releases page]
 
 #### Build from source
 ```bash
-git clone https://github.com/arjav0703/cargofetch.git
-cd cargofetch
+git clone https://github.com/arjav0703/lazycargo.git
+cd lazycargo
 cargo build --release
 ```
 The binary will be located in the target/release/ directory.
