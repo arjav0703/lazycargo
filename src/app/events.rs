@@ -19,7 +19,7 @@ impl App {
                             if !crate_name.is_empty() {
                                 self.popup = PopupMode::None;
                                 self.input = Input::default();
-                                self.run_cargo_add(crate_name).await;
+                                self.run_cargo_add(crate_name);
                             }
                         }
                         _ => {
@@ -38,7 +38,7 @@ impl App {
                         }
                         KeyCode::Char('y') | KeyCode::Char('Y') | KeyCode::Enter => {
                             self.popup = PopupMode::None;
-                            self.run_cargo_remove(name).await;
+                            self.run_cargo_remove(name);
                         }
                         _ => {}
                     }
@@ -91,7 +91,7 @@ impl App {
                 SidebarSection::Commands => {
                     if let Some(i) = self.cmd_list_state.selected() {
                         let cmd = CargoCommand::all()[i].clone();
-                        self.run_cargo_command(cmd).await;
+                        self.run_cargo_command(cmd);
                     }
                 }
                 _ => {}

@@ -116,6 +116,15 @@ impl App {
         let is_active = self.active_panel == Panel::Sidebar
             && self.current_section() == SidebarSection::Commands;
 
+        let desc_line: Vec<String> = vec![CargoCommand::all()
+            [self.cmd_list_state.selected().unwrap()]
+        .description()
+        .to_string()];
+
+        if is_active && self.command_status == CommandStatus::Idle {
+            *self.main_output_lines.lock().unwrap() = desc_line;
+        }
+
         let block = Block::default()
             .title(SidebarSection::Commands.label())
             .borders(Borders::ALL)
